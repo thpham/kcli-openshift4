@@ -1,0 +1,35 @@
+version: upstream
+pull_secret: openshift_pull.json
+numcpus: 4
+network: default
+master_memory: 8192
+worker_memory: 8192
+deploy_bootstrap: true
+bootstrap_memory: 4096
+disk_size: 30
+extra_disks:
+  - 10
+image: fedora-coreos-31.20200113.3.1-qemu.x86_64.qcow2
+cluster: ocp4
+domain: int.ithings.ch
+masters: 1
+workers: 0
+scale: false
+autostart: false
+keys: []
+api_ip: 192.168.122.253
+network_type: OVNKubernetes
+extra_disks: []
+extra_networks: []
+master_macs: []
+master_ips: []
+worker_macs: []
+worker_ips: []
+bootstrap_mac: 
+bootstrap_ip: 
+numa:
+numamode:
+cpupinning:
+pcidevices:
+macosx: False
+config_type: kvm

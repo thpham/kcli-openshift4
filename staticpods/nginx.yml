@@ -13,31 +13,20 @@ spec:
   - name: data-dir
     empty-dir: {}
   initContainers:
-  - name: nginx-get-master-mco
+  - name: nginx-get-mco
     securityContext:
       privileged: true
     image: docker.io/yauritux/busybox-curl
     command:
-    - "curl"
-    args:
-    - "-kL"
-    - "https://{{ api_ip}}:22623/config/master"
-    - "-o"
-    - "/usr/share/nginx/html/master"
-    volumeMounts:
-    - name: data-dir
-      mountPath: "/usr/share/nginx/html"
-  - name: nginx-get-worker-mco
-    securityContext:
-      privileged: true
-    image: docker.io/yauritux/busybox-curl
-    command:
-    - "curl"
-    args:
-    - "-kL"
-    - "https://{{ api_ip}}:22623/config/worker"
-    - "-o"
-    - "/usr/share/nginx/html/worker"
+      - "/bin/sh"
+      - "-c"
+      - |
+        #/bin/sh
+        while [ "$( ls -1 /usr/share/nginx/html | wc -l)" != "2" ] ; do 
+          curl -fs -kL https://{{ api_ip }}:22623/config/worker -o /usr/share/nginx/html/worker
+          curl -fs -kL https://{{ api_ip }}:22623/config/master -o /usr/share/nginx/html/master
+          sleep 5
+        done
     volumeMounts:
     - name: data-dir
       mountPath: "/usr/share/nginx/html"
@@ -58,6 +47,7 @@ spec:
       containerPort: 80
       hostPort: 8080
       protocol: TCP
+  hostNetwork: true
   tolerations:
   - operator: Exists
   priorityClassName: system-node-critical

@@ -10,11 +10,12 @@ metadata:
   name: {{ cluster }}
 networking:
   clusterNetworks:
-  - cidr: 10.132.0.0/14
+  - cidr: 10.128.0.0/14
     hostPrefix: 23
-  networkType: {{ network_type }}
+  machineCIDR: 192.168.122.0/24
   serviceNetwork:
   - 172.30.0.0/16
+  networkType: {{ network_type }}
 platform:
 {%- if config_type == 'vsphere' %}
   vsphere:

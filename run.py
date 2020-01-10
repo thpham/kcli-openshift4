@@ -381,6 +381,7 @@ def create(args):
     with open("%s/install-config.yaml" % clusterdir, 'w') as f:
         f.write(installconfig)
     call('openshift-install --dir=%s create manifests' % clusterdir, shell=True)
+    #sys.exit(1)
     for f in [f for f in glob("customisation/*.yaml")]:
         if '99-ingress-controller.yaml' in f:
             ingressrole = 'master' if workers == 0 else 'worker'
